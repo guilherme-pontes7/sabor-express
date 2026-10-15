@@ -1,4 +1,4 @@
-# Sabor Express
+## Sabor Express
 
 Projeto de Programação Orientada a Objetos em Python: um sistema para gerenciar restaurantes, cardápios e avaliações.
 
@@ -23,6 +23,12 @@ Projeto de Programação Orientada a Objetos em Python: um sistema para gerencia
     static/           interface usada pelo servidor local
     demo/index.html   versão estática (mesma lógica em JavaScript) para publicar online
 
+## Tecnologias
+
+![Python](https://img.shields.io/badge/-Python-3776AB?style=flat&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
+![JSON](https://img.shields.io/badge/-JSON-000000?style=flat&logo=json&logoColor=white)
+
 ## Rodando localmente (versão Python)
 
 Requer Python 3.8 ou mais novo.
@@ -34,5 +40,9 @@ Para ver só o exemplo no terminal: `python app.py --terminal`.
 
 ## Demo online
 
-A pasta `demo/` roda direto no navegador, sem servidor, e guarda os dados no próprio navegador do visitante.
+Link para acessar pelo navegador: https://sabor-express-seven.vercel.app
+
+# Time
+
+ [<img loading="lazy" src="https://avatars.githubusercontent.com/u/326724504?s=400&u=d2becdccc4d6dc7ba1fb8b17d25184ec147d26eb&v=4" width=115><br><sub>Guilherme Pontes</sub>](https://github.com/https://github.com/Guilherme-7777)
 
