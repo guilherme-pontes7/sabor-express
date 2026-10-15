@@ -29,14 +29,6 @@ Projeto de Programação Orientada a Objetos em Python: um sistema para gerencia
 ![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
 ![JSON](https://img.shields.io/badge/-JSON-000000?style=flat&logo=json&logoColor=white)
 
-## Rodando localmente (versão Python)
-
-Requer Python 3.8 ou mais novo.
-
-    python app.py
-
-O site abre em http://localhost:8000. No Windows, também dá para dar dois cliques em `iniciar.bat`.
-Para ver só o exemplo no terminal: `python app.py --terminal`.
 
 ## Demo online
 
