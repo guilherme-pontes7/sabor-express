@@ -36,5 +36,5 @@ Link para acessar pelo navegador: https://sabor-express-seven.vercel.app
 
 # Time
 
- [<img loading="lazy" src="https://avatars.githubusercontent.com/u/326724504?s=400&u=d2becdccc4d6dc7ba1fb8b17d25184ec147d26eb&v=4" width=115><br><sub>Guilherme Pontes</sub>](https://github.com/https://github.com/Guilherme-7777)
+ [<img loading="lazy" src="https://avatars.githubusercontent.com/u/326724504?s=400&u=d2becdccc4d6dc7ba1fb8b17d25184ec147d26eb&v=4" width=115><br><sub>Guilherme Pontes</sub>](https://github.com/guilherme-pontes7)
 
