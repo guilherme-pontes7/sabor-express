@@ -37,4 +37,4 @@ Para ver só o exemplo no terminal: `python app.py --terminal`.
 ## Demo online
 
 A pasta `demo/` roda direto no navegador, sem servidor, e guarda os dados no próprio navegador do visitante.
-Para publicar no Vercel: importe o repositório e, em **Root Directory**, escolha `demo`.
+
