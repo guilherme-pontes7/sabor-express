@@ -2,8 +2,6 @@
 
 Projeto de Programação Orientada a Objetos em Python: um sistema para gerenciar restaurantes, cardápios e avaliações.
 
-**Demo online:** _cole aqui o link do Vercel_
-
 ## O que o projeto faz
 
 - Cadastra restaurantes, ativa e desativa cada um e calcula a nota média.
