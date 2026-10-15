@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sabor Express</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
+<style>
+:root{--bg:#F1F3EE;--surface:#FFFFFF;--ink:#1E2A24;--muted:#5C6B63;--line:#D5DBD3;--accent:#C8372D;--accent-ink:#FFFFFF;--green:#2F5D50;--ok:#2F7D4F;
+color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121815;--surface:#1B2420;--ink:#E8EDE9;--muted:#9DAAA2;--line:#2E3A34;--accent:#E8574C;--accent-ink:#1A0907;--green:#7FB9A6;--ok:#6FCF97;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121815;--surface:#1B2420;--ink:#E8EDE9;--muted:#9DAAA2;--line:#2E3A34;--accent:#E8574C;--accent-ink:#1A0907;--green:#7FB9A6;--ok:#6FCF97;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 "Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:20px 16px 48px}
+header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:20px}
+h1{font-size:2.2rem;line-height:1;margin:0;font-weight:800;letter-spacing:-.03em}
+h1 span{color:var(--accent)}
+h2{font-size:1.5rem;margin:0;font-weight:800;letter-spacing:-.02em}
+h3{font-size:1.05rem;margin:0 0 10px;font-weight:600}
+.grid{display:grid;grid-template-columns:300px 1fr;gap:20px;align-items:start}
+@media (max-width:800px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px}
+.stack{display:grid;gap:16px}
+ul{list-style:none;margin:0;padding:0}
+.rest{display:flex;width:100%;justify-content:space-between;align-items:center;gap:8px;text-align:left;background:none;border:0;border-left:4px solid transparent;border-bottom:1px solid var(--line);padding:10px 8px;color:inherit;font:inherit;cursor:pointer}
+.rest:hover{background:var(--bg)}
+.rest[aria-current="true"]{border-left-color:var(--accent);background:var(--bg)}
+.rest small{display:block;color:var(--muted)}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--line);margin-right:6px}
+.dot.on{background:var(--ok)}
+.status{font-size:.9rem;color:var(--muted);white-space:nowrap}
+button,input,select{font:inherit;color:inherit}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:8px 14px;font-weight:600;cursor:pointer}
+.btn.alt{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.sm{padding:4px 10px;font-size:.88rem}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+form{display:grid;gap:10px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:grid;gap:4px;font-size:.9rem;color:var(--muted)}
+input,select{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;width:100%}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.meta{color:var(--muted);margin-top:4px}
+.board li{padding:12px 0;border-bottom:1px solid var(--line)}
+.line{display:flex;align-items:baseline;gap:8px}
+.line b{font-weight:600}
+.lead{flex:1;border-bottom:2px dotted var(--line);transform:translateY(-4px);min-width:16px}
+.price{font-variant-numeric:tabular-nums;font-weight:800}
+.tag{font-size:.8rem;background:var(--green);color:var(--bg);border-radius:4px;padding:1px 6px;margin-left:6px}
+.sub{color:var(--muted);font-size:.92rem;margin-top:2px}
+.empty{color:var(--muted);padding:12px 0}
+.hide{display:none}
+#msg{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;max-width:90vw;opacity:0;pointer-events:none;transition:opacity .2s}
+#msg.show{opacity:1}
+.err{background:var(--accent);color:var(--accent-ink)}
+@media (prefers-reduced-motion:reduce){#msg{transition:none}}
+.disc{display:flex;gap:6px;align-items:center;margin-top:6px;flex-wrap:wrap}.disc input{width:84px;padding:4px 8px}.old{color:var(--muted);text-decoration:line-through;font-weight:400;margin-right:6px}.aval li{padding:4px 0}</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Sabor <span>Express</span></h1>
+  <button class="btn alt sm" data-action="reset">Restaurar exemplo</button>
+</header>
+<div class="grid">
+  <aside class="stack">
+    <section class="panel">
+      <h3>Restaurantes</h3>
+      <ul id="lista"></ul>
+    </section>
+    <section class="panel">
+      <h3>Novo restaurante</h3>
+      <form id="f-rest">
+        <label>Nome<input name="nome" required maxlength="40"></label>
+        <label>Categoria<input name="categoria" required maxlength="30"></label>
+        <button class="btn" type="submit">Cadastrar restaurante</button>
+      </form>
+    </section>
+  </aside>
+  <main id="detalhe" class="stack"></main>
+</div>
+</div>
+<div id="msg" role="status" aria-live="polite"></div>
+
+<script>
+let dados = [], sel = 0;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const brl = n => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const pct = n => String(n).replace('.', ',') + '%';
+let timer;
+function aviso(texto, erro) {
+  const m = $('#msg'); m.textContent = texto; m.className = 'show' + (erro ? ' err' : '');
+  clearTimeout(timer); timer = setTimeout(() => m.className = '', 2800);
+}
+async function api(metodo, url, corpo) {
+  try {
+    const r = await fetch('/api' + url, { method: metodo, headers: { 'Content-Type': 'application/json' }, body: corpo ? JSON.stringify(corpo) : undefined });
+    const j = await r.json();
+    if (!r.ok) { aviso(j.erro || 'Algo deu errado.', true); return false; }
+    dados = j; if (sel >= dados.length) sel = Math.max(0, dados.length - 1);
+    render(); return true;
+  } catch (e) { aviso('Servidor indisponível. Rode python app.py.', true); return false; }
+}
+function renderLista() {
+  $('#lista').innerHTML = dados.length ? dados.map((r, i) => `
+    <li><button class="rest" data-action="sel" data-i="${i}" aria-current="${i === sel}">
+      <span><b>${esc(r.nome)}</b><small>${esc(r.categoria)} · nota ${r.media}</small></span>
+      <span class="status"><span class="dot ${r.ativo ? 'on' : ''}"></span>${r.ativo ? 'Ativo' : 'Inativo'}</span>
+    </button></li>`).join('') : '<p class="empty">Nenhum restaurante cadastrado.</p>';
+}
+function renderDetalhe() {
+  const r = dados[sel];
+  if (!r) { $('#detalhe').innerHTML = '<section class="panel"><p class="empty">Cadastre um restaurante para começar.</p></section>'; return; }
+  const itens = r.cardapio.map((it, i) => `
+    <li>
+      <div class="line"><b>${esc(it.nome)}</b>${it.desconto ? `<span class="tag">−${pct(it.desconto)}</span>` : ''}
+        <span class="lead"></span>${it.desconto ? `<span class="old">${brl(it.preco_original)}</span>` : ''}<span class="price">${brl(it.preco)}</span></div>
+      <div class="sub">${esc(it.tipo)} · ${esc(it.detalhe)}</div>
+      <form class="disc" data-i="${i}">
+        <label style="display:flex;gap:6px;align-items:center">Desconto (%)
+          <input type="number" name="percentual" min="0" max="99.99" step="0.01" value="${it.desconto}"></label>
+        <button class="btn alt sm" type="submit">Definir desconto</button>
+        <button class="btn alt sm" type="button" data-action="del" data-i="${i}">Remover item</button>
+      </form>
+    </li>`).join('');
+  const aval = r.avaliacoes.slice().reverse().map(a => `<li>${esc(a.texto)}</li>`).join('');
+  $('#detalhe').innerHTML = `
+    <section class="panel">
+      <div class="head">
+        <div><h2>${esc(r.nome)}</h2><div class="meta">${esc(r.categoria)} · nota média ${r.media} (${r.avaliacoes.length} avaliações)</div></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button class="btn" data-action="toggle">${r.ativo ? 'Desativar' : 'Ativar'} restaurante</button>
+          <button class="btn alt" data-action="rmrest">Excluir</button>
+        </div>
+      </div>
+    </section>
+    <section class="panel">
+      <h3>Cardápio</h3>
+      ${itens ? `<ul class="board">${itens}</ul>` : '<p class="empty">O cardápio está vazio. Adicione o primeiro item abaixo.</p>'}
+    </section>
+    <section class="panel">
+      <h3>Adicionar item ao cardápio</h3>
+      <form id="f-item">
+        <div class="row">
+          <label>Tipo<select name="tipo" id="tipo"><option>Prato</option><option>Bebida</option><option>Sobremesa</option></select></label>
+          <label>Preço (R$)<input name="preco" type="number" step="0.01" min="0.01" required></label>
+        </div>
+        <label>Nome<input name="nome" required maxlength="40"></label>
+        <div class="row">
+          <label data-for="Sobremesa">Tipo da sobremesa<input name="subtipo" placeholder="Gelado"></label>
+          <label data-for="Bebida Sobremesa">Tamanho<input name="tamanho" placeholder="Grande"></label>
+        </div>
+        <label data-for="Prato Sobremesa">Descrição<input name="descricao" maxlength="80"></label>
+        <label>Desconto inicial (%)<input name="desconto" type="number" min="0" max="99.99" step="0.01" value="0"></label>
+        <button class="btn" type="submit">Adicionar ao cardápio</button>
+      </form>
+    </section>
+    <section class="panel">
+      <h3>Avaliações</h3>
+      <form id="f-aval">
+        <div class="row">
+          <label>Cliente<input name="cliente" required maxlength="30"></label>
+          <label>Nota<select name="nota"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select></label>
+        </div>
+        <button class="btn" type="submit">Enviar avaliação</button>
+      </form>
+      ${aval ? `<ul class="aval" style="margin-top:10px">${aval}</ul>` : '<p class="empty">Ainda não há avaliações.</p>'}
+    </section>`;
+  ajustarCampos();
+}
+function ajustarCampos() {
+  const t = $('#tipo'); if (!t) return;
+  document.querySelectorAll('[data-for]').forEach(l => l.classList.toggle('hide', !l.dataset.for.split(' ').includes(t.value)));
+}
+function render() { renderLista(); renderDetalhe(); }
+document.addEventListener('change', e => { if (e.target.id === 'tipo') ajustarCampos(); });
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-action]'); if (!b) return;
+  const i = +b.dataset.i;
+  switch (b.dataset.action) {
+    case 'sel': sel = i; render(); break;
+    case 'toggle': await api('POST', `/restaurantes/${sel}/alternar`); break;
+    case 'rmrest': if (confirm('Excluir ' + dados[sel].nome + '?')) { await api('DELETE', `/restaurantes/${sel}`); } break;
+    case 'del': await api('DELETE', `/restaurantes/${sel}/itens/${i}`); break;
+    case 'reset': if (confirm('Apagar tudo e voltar ao exemplo?')) { sel = 0; await api('POST', '/reset'); } break;
+  }
+});
+document.addEventListener('submit', async e => {
+  e.preventDefault();
+  const f = e.target, d = Object.fromEntries(new FormData(f));
+  if (f.id === 'f-rest') { dados.length; if (await api('POST', '/restaurantes', d)) { sel = dados.length - 1; render(); f.reset(); aviso(d.nome + ' cadastrado.'); } return; }
+  if (f.classList.contains('disc')) { if (await api('POST', `/restaurantes/${sel}/itens/${f.dataset.i}/desconto`, d)) aviso('Desconto atualizado.'); return; }
+  if (f.id === 'f-item') { if (await api('POST', `/restaurantes/${sel}/itens`, d)) aviso(d.nome + ' adicionado.'); return; }
+  if (f.id === 'f-aval') { if (await api('POST', `/restaurantes/${sel}/avaliacoes`, d)) aviso('Avaliação registrada.'); }
+});
+api('GET', '/restaurantes');
+</script>
+</body>
+</html>
